@@ -1,0 +1,4 @@
+.bundle
+.git
+vendor
+Gemfile.lock
