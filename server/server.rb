@@ -19,7 +19,11 @@ timeEvents = []
 alldayEvents = []
 
 #ICS URLs
-URLS = ENV['ICS_URL_LIST']
+URLS = [
+  "https://www.google.com/calendar/ical/kevin%40kevinchau.org/private-45154983dbade5f9e4f3c0be9b0b7ca9/basic.ics",
+  "https://www.google.com/calendar/ical/kevin%40divshot.com/private-7aeadab3226a9d184f5734b5be8c990b/basic.ics",
+  "https://www.google.com/calendar/ical/chaukevin%40gmail.com/private-8fcae95a29eccde6e9d5bd8649b29e5b/basic.ics"
+]
 
 ### Parse all calendar events ###
 
