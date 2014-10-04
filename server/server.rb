@@ -8,12 +8,12 @@ require 'active_support/core_ext'
 require 'open-uri'
 require 'Date'
 
+
 #Info
 NAME = "Kevin"
 TZONE = "America/Los_Angeles"
 SPARK_ID = ENV['SPARK_ID']
 SPARK_TOKEN = ENV['SPARK_TOKEN']
-
 #create new array
 timeEvents = []
 alldayEvents = []
@@ -133,8 +133,8 @@ end
 #if no events
 if dayEvent.nil? && timeEvent.nil?
   line0 = "#{NAME} is Currently:".truncate(20)
-  line1 = "  Not Busy".truncate(20)
-  line2 = "Come say hello!".truncate(20)
+  line1 = "   Not Busy".truncate(20)
+  line2 = "  Come say hello!".truncate(20)
   line3 = "Updated:#{Time.now.in_time_zone(TZONE).strftime("%I:%M %p")}".truncate(20)
 
 #if time event ONLY
@@ -153,14 +153,15 @@ elsif timeEvent && dayEvent
 
 #if all-day event ONLY
 elsif dayEvent && timeEvent.nil?
-  line0 = "If Kevin is here, he".truncate(20)
-  line1 = "isn't busy. Say Hi!".truncate(20)
+  line0 = "If #{NAME} is here,he".truncate(20)
+  line1 = "isn't busy.Say Hi!".truncate(20)
   line2 = "   All-Day Event:".truncate(20)
   line3 = "#{dayEvent[:event]}".truncate(20)
 
 end
 
 payload = "#{line0}|#{line1}|#{line2}|#{line3}"
+
 
 ### Spark Core Stuff ###
 
@@ -180,7 +181,6 @@ if now.hour > 23 or now.hour < 7
   # Turn it off at night
   core.function("backlight", "off")
 
-=begin
 elsif now.wday == 0
 
   core.function("backlight", "off")
@@ -188,7 +188,6 @@ elsif now.wday == 0
 elsif now.wday == 6
 
   core.function("backlight", "off")
-=end
 
 else
 
