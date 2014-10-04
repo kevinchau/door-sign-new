@@ -48,7 +48,7 @@ URLS.each do |url|
       if event.dtstart.value.is_a?(Date)
 
         #do stuff for all day event
-        if Date.today >= start_time && Date.today <= end_time
+        if Date.today.in_time_zone(TZONE) >= start_time.in_time_zone(TZONE) && Date.today.in_time_zone(TZONE) <= end_time.in_time_zone(TZONE)
 
           #add event to array
           alldayEvents << {event:event.summary, location: event.location}
@@ -128,9 +128,9 @@ end
 #if no events
 if dayEvent.nil? && timeEvent.nil?
   line0 = "#{NAME} is Currently:".truncate(20)
-  line1 = "  Not Busy".truncate(20)
-  line2 = "Come say hello!".truncate(20)
-  line3 = "Updated:#{Time.now.in_time_zone(TZONE).strftime("%I:%M %p")}".truncate(20)
+  line1 = "    Not Busy".truncate(20)
+  line2 = " Come say hello!".truncate(20)
+  line3 = "Updated: #{Time.now.in_time_zone(TZONE).strftime("%I:%M %p")}".truncate(20)
 
 #if time event ONLY
 elsif timeEvent && dayEvent.nil?
@@ -159,12 +159,18 @@ payload = "#{line0}|#{line1}|#{line2}|#{line3}"
 
 ### Spark Core Stuff ###
 
+puts "Made it to spark section"
+
 #Initiate Spark Core
+puts "Initializing"
 core = RubySpark::Core.new(SPARK_ID, SPARK_TOKEN)
+puts "Initialized"
 
 #Send text to core
 
+puts "main function"
 core.function("update", payload)
+puts "main function complete"
 
 # Figure out whether the backlight should be on or off
 now = Time.now.in_time_zone(TZONE)
@@ -182,6 +188,7 @@ elsif now.wday == 0
 elsif now.wday == 6
 
   core.function("backlight", "off")
+
 
 else
 
