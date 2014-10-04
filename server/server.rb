@@ -15,12 +15,18 @@ TZONE = "America/Los_Angeles"
 SPARK_ID = ENV['SPARK_ID']
 SPARK_TOKEN = ENV['SPARK_TOKEN']
 
+#ICS URLs
+URLS = [
+  ENV['URL1'],
+  ENV['URL2'],
+  ENV['URL3']
+]
+
+
 #create new array
 timeEvents = []
 alldayEvents = []
 
-#ICS URLs
-URLS = ENV['ICS_URL_LIST']
 
 
 ### Parse all calendar events ###
