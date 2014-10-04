@@ -19,6 +19,7 @@ timeEvents = []
 alldayEvents = []
 
 #ICS URLs
+#URLS = ENV['ICS_URL_LIST']
 URLS = [
   "https://www.google.com/calendar/ical/kevin%40kevinchau.org/private-45154983dbade5f9e4f3c0be9b0b7ca9/basic.ics",
   "https://www.google.com/calendar/ical/kevin%40divshot.com/private-7aeadab3226a9d184f5734b5be8c990b/basic.ics",
@@ -132,9 +133,9 @@ end
 #if no events
 if dayEvent.nil? && timeEvent.nil?
   line0 = "#{NAME} is Currently:".truncate(20)
-  line1 = "    Not Busy".truncate(20)
-  line2 = " Come say hello!".truncate(20)
-  line3 = "Updated: #{Time.now.in_time_zone(TZONE).strftime("%I:%M %p")}".truncate(20)
+  line1 = "  Not Busy".truncate(20)
+  line2 = "Come say hello!".truncate(20)
+  line3 = "Updated:#{Time.now.in_time_zone(TZONE).strftime("%I:%M %p")}".truncate(20)
 
 #if time event ONLY
 elsif timeEvent && dayEvent.nil?
@@ -163,18 +164,12 @@ payload = "#{line0}|#{line1}|#{line2}|#{line3}"
 
 ### Spark Core Stuff ###
 
-puts "Made it to spark section"
-
 #Initiate Spark Core
-puts "Initializing"
 core = RubySpark::Core.new(SPARK_ID, SPARK_TOKEN)
-puts "Initialized"
 
 #Send text to core
 
-puts "main function"
 core.function("update", payload)
-puts "main function complete"
 
 # Figure out whether the backlight should be on or off
 now = Time.now.in_time_zone(TZONE)
@@ -185,6 +180,7 @@ if now.hour > 23 or now.hour < 7
   # Turn it off at night
   core.function("backlight", "off")
 
+=begin
 elsif now.wday == 0
 
   core.function("backlight", "off")
@@ -192,7 +188,7 @@ elsif now.wday == 0
 elsif now.wday == 6
 
   core.function("backlight", "off")
-
+=end
 
 else
 
