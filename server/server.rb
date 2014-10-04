@@ -14,17 +14,14 @@ NAME = "Kevin"
 TZONE = "America/Los_Angeles"
 SPARK_ID = ENV['SPARK_ID']
 SPARK_TOKEN = ENV['SPARK_TOKEN']
+
 #create new array
 timeEvents = []
 alldayEvents = []
 
 #ICS URLs
-#URLS = ENV['ICS_URL_LIST']
-URLS = [
-  "https://www.google.com/calendar/ical/kevin%40kevinchau.org/private-45154983dbade5f9e4f3c0be9b0b7ca9/basic.ics",
-  "https://www.google.com/calendar/ical/kevin%40divshot.com/private-7aeadab3226a9d184f5734b5be8c990b/basic.ics",
-  "https://www.google.com/calendar/ical/chaukevin%40gmail.com/private-8fcae95a29eccde6e9d5bd8649b29e5b/basic.ics"
-]
+URLS = ENV['ICS_URL_LIST']
+
 
 ### Parse all calendar events ###
 
@@ -133,8 +130,8 @@ end
 #if no events
 if dayEvent.nil? && timeEvent.nil?
   line0 = "#{NAME} is Currently:".truncate(20)
-  line1 = "   Not Busy".truncate(20)
-  line2 = "  Come say hello!".truncate(20)
+  line1 = "Not Busy".truncate(20)
+  line2 = "Come say hello!".truncate(20)
   line3 = "Updated:#{Time.now.in_time_zone(TZONE).strftime("%I:%M %p")}".truncate(20)
 
 #if time event ONLY
@@ -155,7 +152,7 @@ elsif timeEvent && dayEvent
 elsif dayEvent && timeEvent.nil?
   line0 = "If #{NAME} is here,he".truncate(20)
   line1 = "isn't busy.Say Hi!".truncate(20)
-  line2 = "   All-Day Event:".truncate(20)
+  line2 = "All-Day Event:".truncate(20)
   line3 = "#{dayEvent[:event]}".truncate(20)
 
 end
