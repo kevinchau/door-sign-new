@@ -148,10 +148,10 @@ elsif timeEvent && dayEvent
 
 #if all-day event ONLY
 elsif dayEvent && timeEvent.nil?
-  line0 = "#{NAME} has an".truncate(20)
-  line1 = "All-Day Event.".truncate(20)
-  line2 = "If Im here,Im Not".truncate(20)
-  line3 = "Busy.Come say hi! :)".truncate(20)
+  line0 = "#{NAME} is at an all-".truncate(20)
+  line1 = "day event".truncate(20)
+  line2 = "#{dayEvent[:event]}".truncate(20)
+  line3 = "If Im Here=Not Busy".truncate(20)
 
 end
 
