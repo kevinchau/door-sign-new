@@ -16,12 +16,7 @@ SPARK_ID = ENV['SPARK_ID']
 SPARK_TOKEN = ENV['SPARK_TOKEN']
 
 #ICS URLs
-URLS = [
-  ENV['URL1'],
-  ENV['URL2'],
-  ENV['URL3']
-]
-
+URLS = ENV['CALENDARS'].split(' ')
 
 #create new array
 timeEvents = []
