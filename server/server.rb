@@ -12,24 +12,30 @@ require 'Date'
 #Open a calendar
 calendars = nil
 open("CALENDAR HERE") do |cal|
+
   #Parses ics file into calendars
   calendars = Icalendar.parse(cal)
 end
+
+#TODO: handle all day events.
+
+#create new array
+events = []
 
 calendars.each do |calendar|
 
   calendar.events.each do |event|
 
-    puts event.dtstart
-
     #Parses Datetime from .ics
-    cleanTime = DateTime.strptime(event.dtstart.to_s, "%Y-%m-%d %H:%M:%S %z")
+    startTime = DateTime.strptime(event.dtstart.to_s, "%Y-%m-%d %H:%M:%S %z")
+    endTime = DateTime.strptime(event.dtend.to_s, "%Y-%m-%d %H:%M:%S %z")
 
-    puts cleanTime
+    #Only selects event if current time is between event start and event end
+    if Time.now.to_i < endTime.to_i and Time.now.to_i > startTime.to_i
 
-    ##TODO: Fix this logic
-    if cleanTime > DateTime.now < DateTime.now + 60
-      puts "#{event.summary} starts at: #{event.dtstart} and ends at #{event.dtend}"
+      #put event into array
+      events << {event: event.summary, location: event.location}
+      puts events
     end
 
   end
