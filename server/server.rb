@@ -79,17 +79,12 @@ end
 
 #Timed event handling
 
-#TODO: Choose event that ends later
-
 #if there is more than 1 all-day event
 if timeEvents.length > 1
 
-  #select based on time
-  if Time.now.min.odd?
-    timeEvent = timeEvents[0]
-  else
-    timeEvent = timeEvents[1]
-  end
+  #pick event based later end time
+  timeEvents.sort_by {|t| t[:eventEnd] }.reverse!
+  timeEvent = timeEvents.first
 
 elsif
 
@@ -106,12 +101,9 @@ end
 
 if alldayEvents.length > 1
 
-  #pick one based on time
-  if Time.now.min.odd?
-    dayEvent = alldayEvents[0]
-  else
-    dayEvent = alldayEvents[1]
-  end
+  # pick event based on latest end date
+  alldayEvents.sort_by { |d| a[:eventEnd] }.reverse!
+  dayEvent = alldayEvents.first
 
 elsif alldayEvents.length == 1
 
@@ -158,7 +150,6 @@ elsif dayEvent && timeEvent.nil?
 end
 
 payload = "#{line0}|#{line1}|#{line2}|#{line3}"
-
 
 ### Spark Core Stuff ###
 
