@@ -39,7 +39,7 @@ URLS.each do |url|
 
   calendars.each do |calendar|
 
-    calendar.events.first(15).each do |event|
+    calendar.events.each do |event|
 
       #set vars for start and end time
       start_time = event.dtstart.value
@@ -53,7 +53,7 @@ URLS.each do |url|
         if Date.today.in_time_zone(TZONE) >= start_time.in_time_zone(TZONE) && Date.today.in_time_zone(TZONE) <= end_time.in_time_zone(TZONE)
 
           #add event to array
-          alldayEvents << {event:event.summary, location: event.location}
+          alldayEvents << {event:event.summary, location: event.location.gsub(/\r?\n/, "; ")}
 
         end
 
@@ -63,7 +63,7 @@ URLS.each do |url|
         if Time.now >= start_time && Time.now <= end_time
 
           #add event to array
-          timeEvents << {event: event.summary, location: event.location, eventEnd: event.dtend.in_time_zone('America/Los_Angeles').strftime("%I:%M %p")}
+          timeEvents << {event: event.summary, location: event.location.gsub(/\r?\n/, "; "), eventEnd: event.dtend.in_time_zone('America/Los_Angeles').strftime("%I:%M %p")}
 
         end
 
@@ -124,7 +124,7 @@ if dayEvent.nil? && timeEvent.nil?
   line0 = "#{NAME} is Currently:".truncate(20)
   line1 = "Not Busy".truncate(20)
   line2 = "Come say hello!".truncate(20)
-  line3 = "Updated:#{Time.now.in_time_zone(TZONE).strftime("%I:%M %p")}".truncate(20)
+  line3 = "Updated: #{Time.now.in_time_zone(TZONE).strftime("%I:%M %p")}".truncate(20)
 
 #if time event ONLY
 elsif timeEvent && dayEvent.nil?
@@ -151,6 +151,11 @@ end
 
 payload = "#{line0}|#{line1}|#{line2}|#{line3}"
 
+puts line0
+puts line1
+puts line2
+puts line3
+
 ### Spark Core Stuff ###
 
 #Initiate Spark Core
@@ -158,8 +163,9 @@ core = RubySpark::Core.new(SPARK_ID, SPARK_TOKEN)
 
 #Send text to core
 
+puts "updating spark"
 core.function("update", payload)
-
+puts "spark updated"
 # Figure out whether the backlight should be on or off
 now = Time.now.in_time_zone(TZONE)
 
@@ -183,3 +189,5 @@ else
   core.function("backlight", "on")
 
 end
+
+puts "success"
