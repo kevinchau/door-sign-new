@@ -17,11 +17,13 @@ SPARK_TOKEN = ENV['SPARK_TOKEN']
 #ICS URLs
 URLS = ENV['CALENDARS'].split(' ')
 
+
+
 #create new array
 timeEvents = []
 alldayEvents = []
 
-
+#TODO: Get some future events to determine free at (time)
 
 ### Parse all calendar events ###
 
@@ -117,8 +119,6 @@ end
 
 #Events Display
 
-#TODO: Build logic to determine free at
-
 #if no events
 if dayEvent.nil? && timeEvent.nil?
   line0 = "#{NAME} is Currently:".truncate(20)
@@ -138,7 +138,7 @@ elsif timeEvent && dayEvent
   line0 = "#{NAME} is at:".truncate(20)
   line1 = "#{timeEvent[:event]}".truncate(20)
   line2 = "#{timeEvent[:location]}".truncate(20)
-  line3 = "(#{dayEvent[:event]}".truncate(19) + ")"
+  line3 = "AD:#{dayEvent[:event]}".truncate(20)
 
 #if all-day event ONLY
 elsif dayEvent && timeEvent.nil?
