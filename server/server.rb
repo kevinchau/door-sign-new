@@ -17,8 +17,6 @@ SPARK_TOKEN = ENV['SPARK_TOKEN']
 #ICS URLs
 URLS = ENV['CALENDARS'].split(' ')
 
-
-
 #create new array
 timeEvents = []
 alldayEvents = []
@@ -130,14 +128,14 @@ if dayEvent.nil? && timeEvent.nil?
 elsif timeEvent && dayEvent.nil?
   line0 = "#{NAME} is at:".truncate(20)
   line1 = "#{timeEvent[:event]}".truncate(20)
-  line2 = "#{timeEvent[:location]}".truncate(20)
+  line2 = "@#{timeEvent[:location]}".truncate(20)
   line3 = "Ends at #{timeEvent[:eventEnd]}".truncate(20)
 
 #if both time event and all-day event
 elsif timeEvent && dayEvent
   line0 = "#{NAME} is at:".truncate(20)
   line1 = "#{timeEvent[:event]}".truncate(20)
-  line2 = "#{timeEvent[:location]}".truncate(20)
+  line2 = "@#{timeEvent[:location]}".truncate(20)
   line3 = "AD:#{dayEvent[:event]}".truncate(20)
 
 #if all-day event ONLY
